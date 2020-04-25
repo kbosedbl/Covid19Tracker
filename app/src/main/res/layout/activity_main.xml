@@ -15,9 +15,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:hint="SELECT COUNTRY"
+                android:textColorHint="#FF9800"
+                android:background="#FAF7DD"
+                android:paddingRight="10dp"
+                app:show_currency="false" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical">
             </androidx.recyclerview.widget.RecyclerView>

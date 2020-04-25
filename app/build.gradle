@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.covid19tracker"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -48,4 +48,7 @@ dependencies {
 
 //Times Formater
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+   //country picker
+    implementation 'com.github.mukeshsolanki:country-picker-android:1.2.4'
+    compile 'com.github.scrounger:countrycurrencypicker:1.1.1'
 }

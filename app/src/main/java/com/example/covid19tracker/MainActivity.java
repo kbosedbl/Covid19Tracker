@@ -14,6 +14,10 @@ import com.example.covid19tracker.api.ApiInterface;
 import com.example.covid19tracker.models.Adapter;
 import com.example.covid19tracker.models.Countries;
 import com.example.covid19tracker.models.Result1;
+import com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton;
+import com.scrounger.countrycurrencypicker.library.Country;
+import com.scrounger.countrycurrencypicker.library.Currency;
+import com.scrounger.countrycurrencypicker.library.Listener.CountryCurrencyPickerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +31,38 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private Adapter adapter;
+    private CountryCurrencyButton button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView=findViewById(R.id.recycler_view);
+        button = (CountryCurrencyButton) findViewById(R.id.button);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        loadJSON();
+        button.setShowCurrency(false);
+        button.setOnClickListener(new CountryCurrencyPickerListener() {
+            @Override
+            public void onSelectCountry(Country country) {
+                if (country.getCurrency() == null) {
+                    /*Toast.makeText(MainActivity.this,
+                            String.format("name: %s\ncode: %s", country.getName(), country.getCode())
+                            , Toast.LENGTH_SHORT).show();*/
+                    loadJSON(country.getName());
+                } else {
+                    Toast.makeText(MainActivity.this,
+                            String.format("name: %s\ncurrencySymbol: %s", country.getName(), country.getCurrency().getSymbol())
+                            , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onSelectCurrency(Currency currency) {
+
+            }
+        });
     }
-    public void loadJSON()
+    public void loadJSON(final String string)
     {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<Result1> call;
@@ -51,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
                     countries = response.body().getCountries();
                     //Toast.makeText(MainActivity.this,String.valueOf(countries.get(0).getCountry()),Toast.LENGTH_SHORT).show();
                     List<Countries> dummycountries = new ArrayList<>();
-                    for(int i = 99 ; i < 200 ; i++)
+                    for(int i = 0 ; i < countries.size() ; i++)
                     {
-                        dummycountries.add(countries.get(i+2));
+                        if(string.equals(countries.get(i).getCountry()))
+                        dummycountries.add(countries.get(i));
                     }
                     adapter = new Adapter(dummycountries , MainActivity.this);
                     recyclerView.setAdapter(adapter);
