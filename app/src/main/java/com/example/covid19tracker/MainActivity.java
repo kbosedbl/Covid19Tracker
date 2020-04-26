@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         button.setShowCurrency(false);
+        loadJSON("India");
         button.setOnClickListener(new CountryCurrencyPickerListener() {
             @Override
             public void onSelectCountry(Country country) {
